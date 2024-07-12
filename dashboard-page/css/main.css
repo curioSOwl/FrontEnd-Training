@@ -1,0 +1,146 @@
+*{
+    box-sizing: border-box;
+}
+
+.header__img {
+    width: 180px;
+    padding:10px;
+    padding-left: 30px;
+}
+
+.fonts {
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.horizontal {
+    background-color: white;
+    height:63px;
+}
+
+
+aside {
+    position:fixed;
+    top:0;
+    height: 100vh;
+    padding-left: 5px;
+    box-shadow: rgba(58, 84, 110, 0.2) 0px 8px 24px;
+}
+.main__heading {
+    background-color: white;
+    padding-left:10px;
+    padding-top:5px;
+    padding-bottom: 5px;
+    border-radius: 15px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+header {
+    width: 100%;
+}
+
+h1 {
+    color: white;
+    font-size: 15px;
+}
+
+main {
+    padding:20px;
+    margin-left: 300px;
+    background-color: #f8f7f5;
+    height: 100vh;
+}
+
+option {
+    color: grey;
+}
+
+.section__div {
+    display: flex;
+    background-color: #03aeee;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top:10px;
+    padding-bottom: 10px;
+    border-radius: 40px 0px 0px 40px ;
+}
+
+@media (max-width: 720px){
+    aside {
+        display: none;
+    }
+    main {
+        margin-left: 0px;
+    }
+    
+}
+.inputs {
+    margin-top: 5px;
+    width:100%;
+    border-radius: 5px;
+    background-color: #f8f7f5;
+    border-color: rgb(189, 189, 189);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 10px;
+    border:none;
+}
+
+
+
+.sec1 {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.sec3 {
+    display: flex;
+    padding: 20px;
+    padding-left:30px;
+}
+
+.sec2 {
+    display: block;
+    width: 30%;
+    padding: 10px;
+    min-width: 300px;
+}
+
+.nav__img {
+    padding: 20px;
+}
+
+.icon {
+    border-radius: 50%;
+    background-color: white;
+}
+
+.name {
+    padding-right: 70px;
+    padding-left: 15px;
+
+}
+
+button {
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.buttons {
+    padding-left: 20px;
+}
+
+.button1 {
+    background-color: #03aeee;
+    color: white;
+    border: none;
+}
+
+.button2 {
+    background-color: white;
+    color: grey;
+    border-color: grey;
+}

@@ -1,0 +1,15 @@
+.error-main {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ccd5de;
+}
+.errorimg__style {
+  width: 40%;
+}
+
+.error__img {
+  width: 100%;
+}
