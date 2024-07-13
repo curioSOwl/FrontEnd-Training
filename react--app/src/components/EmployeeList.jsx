@@ -1,14 +1,23 @@
 import { useOutletContext } from "react-router-dom";
 import { useState } from "react";
 import "../employee.css";
+import "../modal.css";
 import SelectionField from "./SelectionField";
 import { MdOutlineDelete, MdModeEditOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { userData } from "../data";
+import Modal from "./Modal";
 
 const EmployeeList = () => {
+  const [openModal, setOpenModal] = useState(false);
   const [filter, setFilter] = useState("");
   const [employeelist, setemployeelist] = useOutletContext();
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+
+  const handleDelete = (employee) => {
+    setSelectedEmployee(employee);
+    setOpenModal(true);
+  };
 
   return (
     <>
@@ -67,10 +76,14 @@ const EmployeeList = () => {
                         <MdOutlineDelete
                           size="25px"
                           color="#e76a6ad9"
-                          className="delete-icon"
+                          className="delete-icon openModalBtn"
                           style={{ cursor: "pointer" }}
-                          onClick={() => console.log(`Deleted ${id}`)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleDelete({ name, id });
+                          }}
                         />
+
                         <Link to={`/employee/edit/${id}`}>
                           <MdModeEditOutline
                             size="25px"
@@ -80,12 +93,19 @@ const EmployeeList = () => {
                           />
                         </Link>
                       </td>
-                    </tr>{" "}
+                    </tr>
                   </Link>
                 )
               )}
             </tbody>
           </table>
+          {openModal && (
+            <Modal
+              open={openModal}
+              onClose={() => setOpenModal(false)}
+              employee={selectedEmployee}
+            />
+          )}
         </section>
       </main>
     </>

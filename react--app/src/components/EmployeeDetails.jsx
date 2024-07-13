@@ -37,8 +37,12 @@ const EmployeeDetails = () => {
               key === "status"
                 ? `${employee[key].toLowerCase()} status-pill details__value`
                 : "details__value";
+            const lastIndex = Object.keys(employee).length - 1;
+            const cn =
+              index > lastIndex - 3 ? "details__div last" : "details__div";
+
             return (
-              <div className="details__div">
+              <div className={cn}>
                 <div className="details__label">{LabelData[index]}</div>
                 <div className={value}>{employee[key]}</div>
               </div>
