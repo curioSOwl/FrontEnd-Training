@@ -2,9 +2,11 @@ import React from "react";
 import Aside from "../components/Aside";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useReducer } from "react";
+import { userData } from "../data";
+import reducer from "../useReducer";
 
 const HomeLayout = () => {
-  const [employeelist, setemployeelist] = useState([]);
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   useEffect(() => {
@@ -16,7 +18,7 @@ const HomeLayout = () => {
     <div className="page">
       <Aside />
       <div className="content">
-        <Outlet context={[employeelist, setemployeelist]} />
+        <Outlet />
       </div>
     </div>
   );

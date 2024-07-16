@@ -8,6 +8,7 @@ export const userData = [
     experience: "4 years",
     address: "Lane1",
     department: "developer",
+    email: "text@gmail.com",
   },
   {
     name: "Michael Lee",
@@ -18,6 +19,7 @@ export const userData = [
     experience: "7 years",
     address: "Lane1",
     department: "developer",
+    email: "text@gmail.com",
   },
   {
     name: "Jane Smith",
@@ -28,6 +30,7 @@ export const userData = [
     experience: "5 years",
     address: "Lane1",
     department: "developer",
+    email: "text@gmail.com",
   },
   {
     name: "Alice Johnson",
@@ -38,6 +41,7 @@ export const userData = [
     experience: "3 years",
     address: "Lane1",
     department: "developer",
+    email: "text@gmail.com",
   },
   {
     name: "Bob Williams",
@@ -48,6 +52,7 @@ export const userData = [
     experience: "6 months",
     address: "Lane1",
     department: "developer",
+    email: "text@gmail.com",
   },
   {
     name: "Lee Johns",
@@ -58,6 +63,7 @@ export const userData = [
     experience: "7 years",
     address: "Lane1",
     department: "developer",
+    email: "text@gmail.com",
   },
   {
     name: "Eve Brown",
@@ -68,6 +74,7 @@ export const userData = [
     experience: "2 years",
     address: "Lane1",
     department: "developer",
+    email: "text@gmail.com",
   },
   {
     name: "Thomas Paul",
@@ -78,6 +85,7 @@ export const userData = [
     experience: "7 years",
     address: "Lane1",
     department: "developer",
+    email: "text@gmail.com",
   },
   {
     name: "George Milton",
@@ -88,6 +96,7 @@ export const userData = [
     experience: "7 years",
     address: "Lane1",
     department: "developer",
+    email: "text@gmail.com",
   },
   {
     name: "Sam Bobby",
@@ -98,6 +107,7 @@ export const userData = [
     experience: "7 years",
     address: "Lane1",
     department: "developer",
+    email: "text@gmail.com",
   },
   {
     name: "Richard Davis",
@@ -108,6 +118,7 @@ export const userData = [
     experience: "7 years",
     address: "Lane1",
     department: "developer",
+    email: "text@gmail.com",
   },
   {
     name: "Molly Paul",
@@ -118,5 +129,6 @@ export const userData = [
     experience: "7 years",
     address: "Lane1",
     department: "developer",
+    email: "text@gmail.com",
   },
 ];

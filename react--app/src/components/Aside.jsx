@@ -9,9 +9,9 @@ const Aside = () => {
         <img src={logo} className="header__img" alt="logo" />
       </header>
       <aside>
-        <AsideOptions value="Employee List" to="list" />
-        <AsideOptions value="CreateEmployee" to="create" />
-        <AsideOptions value="LogOut" to="/" />
+        <AsideOptions value="Employee List" to="/employee" />
+        <AsideOptions value="Create Employee" to="create" />
+        <AsideOptions value="Logout" to="/" />
       </aside>
     </>
   );

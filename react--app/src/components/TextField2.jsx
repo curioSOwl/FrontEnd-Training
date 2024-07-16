@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "../employee.css";
 
 const TextField2 = (props) => {
   const [text, setText] = useState("");

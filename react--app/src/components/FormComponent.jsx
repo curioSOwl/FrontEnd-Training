@@ -1,20 +1,34 @@
 import TextField2 from "./TextField2";
 import SelectionField from "./SelectionField";
 import Button from "./Button";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { useDispatch } from "react-redux";
+import { addEmployee, upEmployee } from "../store/employeeReducer";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const FormComponent = (props) => {
+  const employees = useSelector((state) => state.employees.employees);
+  const navigate = useNavigate();
   const [employeeObject, setEmployeeObject] = useState({
-    emp_name: "",
-    emp_id: props.id,
-    emp_join: "",
-    emp_role: "",
-    emp_dept: "",
-    emp_status: "",
-    emp_exp: "",
-    emp_addr: "",
+    name: "",
+    id: uuidv4(),
+    joinDate: "",
+    role: "",
+    department: "",
+    status: "",
+    experience: "",
+    address: "",
+    email: "",
   });
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (props.id)
+      setEmployeeObject(employees.find((employee) => employee.id == props.id));
+  }, [props.id]);
 
   console.log(props);
 
@@ -29,54 +43,48 @@ const FormComponent = (props) => {
     {
       key: 1,
       type: "text",
-      label: "EmployeeName",
-      className: "inputs",
-      name: "emp_name",
-      id: "EmployeeName",
+      label: "Employee Name",
+      name: "name",
+      id: "Employee Name",
     },
     {
       key: 2,
       type: "text",
       label: "Joining Date",
-      className: "inputs",
-      name: "emp_join",
+      name: "joinDate",
       id: "Joining Date",
     },
     {
       key: 3,
       type: "text",
       label: "Experience [Yrs]",
-      className: "inputs",
-      name: "emp_exp",
+      name: "experience",
       id: "Experience",
     },
     {
       key: 4,
       label: "Department",
-      className: "inputs",
       hiddenValue: "Choose dep",
       option: ["HR", "development", "Business"],
-      name: "emp_dept",
+      name: "department",
       type: "select",
       id: "Department",
     },
     {
       key: 5,
       label: "Role",
-      className: "inputs",
       hiddenValue: "Choose role",
       option: ["Frontend", "Backend", "UI"],
-      name: "emp_role",
+      name: "role",
       type: "select",
       id: "Role",
     },
     {
       key: 6,
       label: "Status",
-      className: "inputs",
       hiddenValue: "Choose status",
-      name: "emp_status",
-      option: ["Incomplete", "Complete"],
+      name: "status",
+      option: ["Active", "Inactive", "Probation"],
       type: "select",
       id: "Status",
     },
@@ -85,16 +93,22 @@ const FormComponent = (props) => {
       key: 7,
       type: "text",
       label: "Address",
-      className: "inputs",
-      name: "emp_addr",
+      name: "address",
       id: "Address",
     },
     {
       key: 8,
       type: "text",
+      label: "Email",
+      name: "email",
+      id: "Email",
+    },
+    {
+      key: 9,
+      type: "text",
       label: "Employee ID",
-      className: "inputs",
-      name: "emp_id",
+      className: "cursorn",
+      name: "id",
       id: props.id,
     },
   ];
@@ -102,7 +116,7 @@ const FormComponent = (props) => {
     <form className="main__heading">
       <div className="sec1 fonts">
         {fields.map((field) => {
-          if (props.name == "create" && field.name == "emp_id") {
+          if (props.name == "create" && field.name == "id") {
             return;
           }
           return (
@@ -112,20 +126,23 @@ const FormComponent = (props) => {
                   name={field.name}
                   type={field.type}
                   label={field.label}
-                  className="inputs input__s"
+                  className={
+                    "inputs input__s " +
+                    (field.className ? field.className : "")
+                  }
                   onChange={onChangeEmployee}
                   value={employeeObject[field.name]}
                   id={field.id}
                 />
               ) : (
                 <SelectionField
+                  name={field.name}
                   hiddenValue={field.hiddenValue}
                   label={field.label}
                   className="inputs input__s"
                   options={field.option}
-                  changeState={(fieldValue) => {
-                    changFormState(field.name, fieldValue);
-                  }}
+                  changeState={onChangeEmployee}
+                  value={employeeObject[field.name]}
                 />
               )}
             </div>
@@ -137,8 +154,14 @@ const FormComponent = (props) => {
           isPrimary={true}
           ButtonText="Create"
           className="button1 button__employee"
-          handleSubmit={() => {
-            setemployeelist((prev) => [...prev, employeeObject]);
+          handleSubmit={(e) => {
+            e.preventDefault();
+            if (props.name == "create") {
+              dispatch(addEmployee(employeeObject));
+            } else if (props.name == "edit") {
+              dispatch(upEmployee(employeeObject));
+            }
+            navigate(-1);
           }}
         />
         <div className="buttons"></div>

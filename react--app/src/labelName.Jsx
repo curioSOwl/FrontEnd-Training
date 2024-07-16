@@ -6,5 +6,6 @@ export const LabelData = [
   "Status",
   "Experience",
   "Address",
-   "Department",
+  "Department",
+  "Email",
 ];

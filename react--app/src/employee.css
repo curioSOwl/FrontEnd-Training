@@ -2,13 +2,21 @@
   box-sizing: border-box;
 }
 
+.linkeffects {
+  text-decoration: none;
+}
+
+body {
+  background-color: #f8f7f5;
+}
+
 header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   background-color: #fff;
-  z-index: 1;
+  z-index: 2;
 }
 
 body {
@@ -61,6 +69,7 @@ aside {
 }
 
 .create__icon__style {
+  color: black;
   background-color: #eaf9ff;
   width: 180px;
   border-radius: 20px;
@@ -87,6 +96,9 @@ aside {
   border: none !important;
   width: 150px !important;
   border-radius: 20px !important;
+  font-size: 16px;
+  text-align: center;
+  outline-width: 0;
 }
 
 .fonts {
@@ -108,10 +120,12 @@ aside {
   box-shadow: rgba(58, 84, 110, 0.2) 0px 8px 24px;
 }
 
+.margintop {
+  margin-top: 60px;
+}
 .main__heading {
   background-color: white;
   padding: 20px;
-  margin-top: 60px;
   border-radius: 15px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
@@ -173,7 +187,7 @@ th {
 }
 
 .details__value {
-  padding: 10px;
+  padding: 10px 10px 10px 0px;
 }
 .delete-icon {
   margin-right: 20px;
@@ -246,7 +260,7 @@ header {
   padding: 20px;
   margin-left: 300px;
   background-color: #f8f7f5;
-  height: calc(100vh - 80px);
+  height: 100vh;
 }
 
 option {
@@ -276,6 +290,19 @@ option {
 
 .input__s {
   margin-top: 10px;
+  color: grey;
+  outline-width: 0;
+}
+
+.input__s:focus {
+  border-color: #03aeee;
+  background-color: white;
+}
+
+.cursorn {
+  background-color: rgb(216, 216, 216);
+  cursor: not-allowed;
+  caret-color: red;
 }
 
 .sec1 {

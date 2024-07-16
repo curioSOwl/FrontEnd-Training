@@ -1,28 +1,37 @@
-import { useOutletContext } from "react-router-dom";
 import { useState } from "react";
 import "../employee.css";
 import "../modal.css";
 import SelectionField from "./SelectionField";
 import { MdOutlineDelete, MdModeEditOutline } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 import { userData } from "../data";
 import Modal from "./Modal";
+import { actionTypes } from "../useReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { delEmployee, filterEmployee } from "../store/employeeReducer";
 
 const EmployeeList = () => {
+  const [showDelete, toggleDelete] = useState(false);
+  const employees = useSelector((state) => state.employees.employees);
+  const filterBy = useSelector((state) => state.employees.filterBy);
   const [openModal, setOpenModal] = useState(false);
-  const [filter, setFilter] = useState("");
-  const [employeelist, setemployeelist] = useOutletContext();
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+
+  const dispatch = useDispatch();
 
   const handleDelete = (employee) => {
     setSelectedEmployee(employee);
     setOpenModal(true);
   };
 
+  const onchangeFilter = (e, value) => {
+    dispatch(filterEmployee(value));
+  };
+
   return (
     <>
       <main className="main__class">
-        <section className="main__heading list__heading__container">
+        <section className="margintop main__heading list__heading__container">
           <h1 className="fonts">Employee List</h1>
           <div className="elements2">
             <div className="filter">
@@ -31,14 +40,17 @@ const EmployeeList = () => {
                 <SelectionField
                   hiddenValue="Status"
                   className="inputs input__sty"
-                  options={["active", "Inactive"]}
+                  options={["All", "Active", "Inactive", "Probation"]}
+                  changeState={onchangeFilter}
                 />
               </div>
             </div>
-            <div className="filters">
-              <div className="plus__style">+</div>
-              <div className="create__icon__style">Create employee</div>
-            </div>
+            <Link to="/employee/create" className="linkeffects">
+              <div className="filters">
+                <div className="plus__style">+</div>
+                <div className="create__icon__style">Create employee</div>
+              </div>
+            </Link>
           </div>
         </section>
         <br></br>
@@ -55,8 +67,9 @@ const EmployeeList = () => {
             </tr>
 
             <tbody>
-              {userData.map(
-                ({ name, id, joinDate, role, status, experience }) => (
+              {employees
+                .filter((emp) => filterBy === "All" || emp.status === filterBy)
+                .map(({ name, id, joinDate, role, status, experience }) => (
                   <Link
                     to={`/employee/details/${id}`}
                     className="linkdecoration"
@@ -95,14 +108,17 @@ const EmployeeList = () => {
                       </td>
                     </tr>
                   </Link>
-                )
-              )}
+                ))}
             </tbody>
           </table>
           {openModal && (
             <Modal
               open={openModal}
               onClose={() => setOpenModal(false)}
+              onConfirm={() => {
+                dispatch(delEmployee(selectedEmployee.id));
+                setOpenModal(false);
+              }}
               employee={selectedEmployee}
             />
           )}

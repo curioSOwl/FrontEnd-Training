@@ -1,6 +1,6 @@
 import "../modal.css";
 
-const Modal = ({ open, onClose, employee }) => {
+const Modal = ({ open, onClose, onConfirm, employee }) => {
   if (!open) return null;
 
   return (
@@ -18,7 +18,10 @@ const Modal = ({ open, onClose, employee }) => {
           </p>
         </div>
         <div className="footer">
-          <button className="button1 button__employee popup" onClick={onClose}>
+          <button
+            className="button1 button__employee popup"
+            onClick={onConfirm}
+          >
             Confirm
           </button>
           <button
