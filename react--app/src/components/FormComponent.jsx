@@ -7,13 +7,34 @@ import { useDispatch } from "react-redux";
 import { addEmployee, upEmployee } from "../store/employeeReducer";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {
+  useAddemployeeMutation,
+  useGetEmployeeDetailsQuery,
+} from "../pages/employees/api";
 
 const FormComponent = (props) => {
-  const employees = useSelector((state) => state.employees.employees);
+  // const employees = useSelector((state) => state.employees.employees);
+  const { data, isSuccess } = useGetEmployeeDetailsQuery(props.id);
   const navigate = useNavigate();
+
+  const onConfirm = async () => {
+    const response = await props.addEmployee({
+      ...employeeObject,
+      joinDate: new Date().toISOString().split("T")[0],
+      status: employeeObject.status,
+      email: employeeObject.email,
+      address: { line1: employeeObject.address },
+      department: employeeObject.department,
+      name: employeeObject.name,
+      role: employeeObject.role,
+      experience: employeeObject.experience,
+      password: "123",
+    });
+    console.log(response);
+  };
   const [employeeObject, setEmployeeObject] = useState({
     name: "",
-    id: uuidv4(),
+    id: "",
     joinDate: "",
     role: "",
     department: "",
@@ -21,14 +42,23 @@ const FormComponent = (props) => {
     experience: "",
     address: "",
     email: "",
+    password: "",
   });
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    if (props.id)
-      setEmployeeObject(employees.find((employee) => employee.id == props.id));
-  }, [props.id]);
+    if (isSuccess && props.id) {
+      const employeeData = {
+        ...data,
+        address: data.address.line1,
+        department: data.department.name,
+
+        joinDate: data.joinDate.slice(0, 10),
+        // id: parseInt(data.id),
+      };
+      setEmployeeObject(employeeData);
+      //     navigate("/employee");
+    }
+  }, [isSuccess, data, props.id]);
 
   console.log(props);
 
@@ -65,7 +95,7 @@ const FormComponent = (props) => {
       key: 4,
       label: "Department",
       hiddenValue: "Choose dep",
-      option: ["HR", "development", "Business"],
+      option: ["Frontend", "UI", "Business", "Backend"],
       name: "department",
       type: "select",
       id: "Department",
@@ -74,7 +104,7 @@ const FormComponent = (props) => {
       key: 5,
       label: "Role",
       hiddenValue: "Choose role",
-      option: ["Frontend", "Backend", "UI"],
+      option: ["Design", "HR", "Developer"],
       name: "role",
       type: "select",
       id: "Role",
@@ -154,14 +184,17 @@ const FormComponent = (props) => {
           isPrimary={true}
           ButtonText="Create"
           className="button1 button__employee"
-          handleSubmit={(e) => {
+          handleSubmit={async (e) => {
             e.preventDefault();
             if (props.name == "create") {
-              dispatch(addEmployee(employeeObject));
+              onConfirm();
             } else if (props.name == "edit") {
-              dispatch(upEmployee(employeeObject));
+              await props.up({
+                ...employeeObject,
+                address: { line1: employeeObject.address },
+              });
             }
-            navigate(-1);
+            navigate("/employee");
           }}
         />
         <div className="buttons"></div>

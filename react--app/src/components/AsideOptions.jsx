@@ -4,7 +4,7 @@ import icon from "../assets/icon.svg";
 
 const AsideOptions = (props) => {
   return (
-    <Link to={props.to} className="sideOptions">
+    <Link to={props.to} className="sideOptions" onClick={props.onc}>
       <div className="aside__option">
         <span className="img__container">
           <img src={icon} className="nav__img" />

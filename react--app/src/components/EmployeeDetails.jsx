@@ -2,10 +2,35 @@ import { Link, useParams } from "react-router-dom";
 import { MdOutlineEdit } from "react-icons/md";
 import { userData } from "../data";
 import { LabelData } from "../labelName.Jsx";
+import { useGetEmployeeDetailsQuery } from "../pages/employees/api";
+import { useEffect, useState } from "react";
 
 const EmployeeDetails = () => {
   let { id } = useParams();
-  const employee = userData.find((employee) => employee.id === id);
+  const { data, isSuccess } = useGetEmployeeDetailsQuery(id);
+  const [employee, setEmployee] = useState({});
+  useEffect(() => {
+    if (isSuccess) {
+      const emp = {
+        name: data.name,
+        id: data.id,
+        joinDate: new Date(data?.createdAt).toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }),
+        role: data.role,
+        status: data.status,
+        experience: data.experience,
+        address: data.address.line1,
+        department: data.department.name,
+        email: data.email,
+      };
+      setEmployee(emp);
+    }
+  }, [isSuccess, data]);
+
+  //const employee = userData.find((employee) => employee.id === id);
 
   return (
     <>

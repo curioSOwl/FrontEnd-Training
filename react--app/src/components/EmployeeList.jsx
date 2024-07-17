@@ -1,22 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../employee.css";
 import "../modal.css";
 import SelectionField from "./SelectionField";
 import { MdOutlineDelete, MdModeEditOutline } from "react-icons/md";
-import { Link, useOutletContext } from "react-router-dom";
-import { userData } from "../data";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import Modal from "./Modal";
-import { actionTypes } from "../useReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { delEmployee, filterEmployee } from "../store/employeeReducer";
+import {
+  useDeleteEmployeeMutation,
+  useGetEmployeeListQuery,
+} from "../pages/employees/api";
 
 const EmployeeList = () => {
-  const [showDelete, toggleDelete] = useState(false);
+  const navigate = useNavigate();
+  const [list, setList] = useState([]);
+  const { data = [], isSuccess } = useGetEmployeeListQuery();
+  const [employeeDelete] = useDeleteEmployeeMutation();
   const employees = useSelector((state) => state.employees.employees);
   const filterBy = useSelector((state) => state.employees.filterBy);
   const [openModal, setOpenModal] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
+  useEffect(() => {
+    if (isSuccess) {
+      const employees = data.map((employee) => ({
+        ...employee,
+      }));
+      setList(employees);
+    }
+  }, [data]);
   const dispatch = useDispatch();
 
   const handleDelete = (employee) => {
@@ -55,37 +68,38 @@ const EmployeeList = () => {
         </section>
         <br></br>
         <section>
-          <table className="tables">
-            <tr className="table__heading tableRow">
-              <th>Employee Name</th>
-              <th>Employee ID</th>
-              <th>Joining Date</th>
-              <th>Role</th>
-              <th>Status</th>
-              <th>Experience</th>
-              <th>Action</th>
-            </tr>
+          <div className="tables">
+            <div className="table__heading tableRow tdth">
+              <div>Employee Name</div>
+              <div>Employee ID</div>
+              <div>Joining Date</div>
+              <div>Role</div>
+              <div>Status</div>
+              <div>Experience</div>
+              <div>Action</div>
+            </div>
 
-            <tbody>
-              {employees
+            <div>
+              {list
                 .filter((emp) => filterBy === "All" || emp.status === filterBy)
                 .map(({ name, id, joinDate, role, status, experience }) => (
                   <Link
+                    key={id}
                     to={`/employee/details/${id}`}
                     className="linkdecoration"
                   >
-                    <tr key={id} className="table__data tableRow">
-                      <td>{name}</td>
-                      <td>{id}</td>
-                      <td>{joinDate}</td>
-                      <td>{role}</td>
-                      <td>
+                    <div className="table__data tableRow tdth">
+                      <div>{name}</div>
+                      <div>{id}</div>
+                      <div>{joinDate.slice(0, 10)}</div>
+                      <div>{role}</div>
+                      <div>
                         <div className={`${status.toLowerCase()} status-pill`}>
                           <p>{status}</p>
                         </div>
-                      </td>
-                      <td>{experience}</td>
-                      <td>
+                      </div>
+                      <div>{experience}</div>
+                      <div>
                         <MdOutlineDelete
                           size="25px"
                           color="#e76a6ad9"
@@ -97,27 +111,31 @@ const EmployeeList = () => {
                           }}
                         />
 
-                        <Link to={`/employee/edit/${id}`}>
-                          <MdModeEditOutline
-                            size="25px"
-                            color="#6ab7e7d9"
-                            style={{ cursor: "pointer" }}
-                            onClick={() => console.log(`Edit ${id}`)}
-                          />
-                        </Link>
-                      </td>
-                    </tr>
+                        {/* <button> */}
+                        <MdModeEditOutline
+                          size="25px"
+                          color="#6ab7e7d9"
+                          style={{ cursor: "pointer" }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/employee/edit/${id}`);
+                          }}
+                        />
+                        {/* </button> */}
+                      </div>
+                    </div>
                   </Link>
                 ))}
-            </tbody>
-          </table>
+            </div>
+          </div>
           {openModal && (
             <Modal
               open={openModal}
               onClose={() => setOpenModal(false)}
               onConfirm={() => {
-                dispatch(delEmployee(selectedEmployee.id));
-                setOpenModal(false);
+                employeeDelete({ id: selectedEmployee.id });
+                selectedEmployee(null);
+                return setOpenModal(false);
               }}
               employee={selectedEmployee}
             />

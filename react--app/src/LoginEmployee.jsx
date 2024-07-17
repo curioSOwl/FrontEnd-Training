@@ -5,23 +5,39 @@ import Button from "./components/Button";
 import TextField from "./components/TextField";
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useLoginMutation } from "./pages/login/api";
 
 const LoginEmployee = () => {
-  const [loginObject, setLoginObject] = useState({});
+  const [loginObject, setLoginObject] = useState({
+    username: "",
+    password: "",
+  });
+
+  const [login, { isSuccess, data }] = useLoginMutation();
 
   const [error, setError] = useState("");
   const [color, setColor] = useState(undefined);
+
   const userNameRef = useRef();
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    if (loginObject.username == "Aparna" && loginObject.password == "123") {
-      localStorage.setItem("token", "true");
-    } else {
-      localStorage.setItem("token", "false");
-    }
-    navigate("/employee");
+  console.log(isSuccess, data);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await login({
+      email: loginObject.username,
+      password: loginObject.password,
+    });
   };
+
+  useEffect(() => {
+    if (isSuccess && data.data.token != "") {
+      localStorage.setItem("token", data.data.token);
+      navigate("/employee");
+    }
+  }, [isSuccess, data]);
+
   useEffect(() => {
     userNameRef.current.focus();
   }, []);
@@ -42,12 +58,12 @@ const LoginEmployee = () => {
             label="Username"
             type="text"
             className="input__login span__login"
-            value={loginObject.userName}
+            value={loginObject.username}
             color={color}
             error={error}
             ref={userNameRef}
             onChange={(username) => {
-              if (username.length <= 10) {
+              if (username.length <= 100) {
                 setLoginObject({ ...loginObject, username });
                 setColor(undefined);
                 setError("");

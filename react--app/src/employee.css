@@ -136,8 +136,7 @@ aside {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
-td,
-th {
+.tdth {
   display: flex;
   align-items: center;
 }
@@ -160,6 +159,10 @@ th {
   padding: 20px;
   height: 90px;
   border-radius: 20px;
+}
+
+.table__data:hover {
+  border: 1px solid #03aeee;
 }
 
 .status-pill {

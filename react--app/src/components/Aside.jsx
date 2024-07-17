@@ -11,7 +11,12 @@ const Aside = () => {
       <aside>
         <AsideOptions value="Employee List" to="/employee" />
         <AsideOptions value="Create Employee" to="create" />
-        <AsideOptions value="Logout" to="/" />
+        <AsideOptions
+          value="Logout"
+          to="/"
+          onc={()=>localStorage.removeItem("token") 
+          }
+        />
       </aside>
     </>
   );
